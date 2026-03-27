@@ -1,58 +1,645 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>JP Rigotti - TP1</title>
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>¿Qué nos dice la glucosa sobre lo que comemos?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-            text-align: center;
-        }
-
-        h1 {
-            margin-bottom: 10px;
-        }
-
-        .chart-container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
+      html {
+        scroll-behavior: smooth;
+      }
+      .chart-frame {
+        width: 100%;
+        min-height: 520px;
+        border: 1px solid #e5e7eb;
+        border-radius: 1rem;
+        overflow: hidden;
+        background: #ffffff;
+      }
     </style>
-</head>
-<body>
+  </head>
 
-    <h1>Evolución del perfil glucémico en el tiempo I</h1>
-    <p>Gáfico de lineas con los valores de glucemia alcanzados para cada alimento</p>
-
-      <div class="chart-wrapper">
-        <img src="./viz.svg" alt="Gráfico SVG exportado desde RAWGraphs 1" />
+  <body class="bg-stone-50 text-slate-800">
+    <header class="relative overflow-hidden bg-slate-900 text-white">
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-emerald-500/20 via-cyan-400/10 to-transparent"
+      ></div>
+      <div class="relative max-w-6xl mx-auto px-6 py-20">
+        <p class="uppercase tracking-[0.25em] text-sm text-emerald-300 mb-4">
+          Visualización de datos personales
+        </p>
+        <h1 class="text-4xl md:text-6xl font-bold leading-tight max-w-4xl">
+          ¿Sabemos lo que comemos?
+        </h1>
+        <h2 class="text-2xl md:text-4xl font-bold leading-tight max-w-4xl mt-5">
+          Veamos que revelan los datos obtenidos de un Monitor Contínuo de
+          Glucosa
+        </h2>
+        <p
+          class="mt-6 text-lg md:text-xl text-slate-200 max-w-3xl leading-relaxed"
+        >
+          Un recorrido visual por registros personales de glucosa luego de
+          consumir alimentos cotidianos como frutas y harinas. El objetivo es
+          mostrar que no todos los alimentos impactan igual y que la respuesta
+          del cuerpo puede ayudarnos a pensar mejor nuestras decisiones
+          alimentarias.
+        </p>
       </div>
-  
-     <h1>Evolución del perfil glucémico en el tiempo II</h1>
-    <p>Mapa de calor con valores de glucemia alcanzados para cada alimento</p>
+    </header>
 
-      <div class="chart-wrapper">
-        <img src="./heatmap.svg" alt="Gráfico SVG exportado desde RAWGraphs 1" />
+    <nav
+      class="sticky top-0 z-30 backdrop-blur bg-white/80 border-b border-slate-200"
+    >
+      <div
+        class="max-w-6xl mx-auto px-6 py-3 flex flex-wrap gap-4 text-sm font-medium"
+      >
+        <a href="#contexto" class="hover:text-emerald-700">Contexto</a>
+        <a href="#metodo" class="hover:text-emerald-700">Método</a>
+        <a href="#graficos" class="hover:text-emerald-700">Visualizaciones</a>
+        <a href="#hallazgos" class="hover:text-emerald-700">Hallazgos</a>
+        <a href="#cierre" class="hover:text-emerald-700">Conclusión</a>
       </div>
-  
-    <h1>Perfil glucémico máximo por alimento en el tiempo</h1>
-    <p>Valores máximos de glucosa (mg/dL) por intervalo temporal</p>
+    </nav>
 
-    <div class="chart-container">
-        <div class="flourish-embed flourish-chart" data-src="visualisation/28158767">
-            <script src="https://public.flourish.studio/resources/embed.js"></script>
-            <noscript>
-                <img src="https://public.flourish.studio/visualisation/28158767/thumbnail" width="100%" alt="visualization" />
-            </noscript>
+    <main class="max-w-6xl mx-auto px-6 py-12 space-y-20">
+      <!-- Contexto -->
+      <section id="contexto" class="">
+        <div class="lg:col-span-2">
+          <p class="text-emerald-700 font-semibold mb-3">La historia</p>
+          <h2 class="text-3xl font-bold mb-4">
+            No todos los alimentos “suben” la glucosa de la misma manera
+          </h2>
+          <div class="space-y-4 text-lg leading-relaxed text-slate-700">
+            <p class="text-slate-700 leading-relaxed">
+              Este proyecto surge a partir de una inquietud personal vinculada a
+              la prevención de la <strong>diabetes tipo 2</strong> y, en
+              particular, al impacto que pueden tener los picos frecuentes de
+              glucosa en el desarrollo de resistencia a la insulina. A partir de
+              esta preocupación, surgió la pregunta:
+              <strong
+                >¿qué sucede en el cuerpo después de comer distintos
+                alimentos?</strong
+              >
+            </p>
+
+            <p class="text-slate-700 leading-relaxed mt-4">
+              Para explorar esta pregunta, se registraron niveles de glucosa en
+              sangre luego de la ingesta de alimentos habituales. Aunque se
+              trata de una persona no diabética, las variaciones observadas en
+              la curva glucémica permiten identificar diferencias relevantes
+              entre alimentos y reflexionar sobre la calidad nutricional de lo
+              que consumimos.
+            </p>
+
+            <p class="text-slate-700 leading-relaxed mt-4">
+              El objetivo de este trabajo no es realizar diagnósticos ni brindar
+              recomendaciones médicas, sino
+              <strong
+                >traducir datos personales en una historia visual
+                accesible</strong
+              >, que invite a comprender mejor cómo responden nuestros cuerpos
+              frente a distintas elecciones alimentarias.
+            </p>
+          </div>
         </div>
-    </div>
+      </section>
 
-</body>
+      <!-- ¿Cómo se obtuvieron los datos? -->
+      <section id="metodo" class="flex flex-row gap-4">
+        <!-- Columna 1 -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-8">
+          <h2 class="text-2xl font-bold mb-4">
+            ¿Cómo se obtuvieron los datos?
+          </h2>
+          <ul class="space-y-3 text-slate-700 leading-relaxed list-disc pl-5">
+            <li>
+              Se utilizó un Monitor Contínuo de Glucosa Freestyle Libre (Abbott)
+              para registrar la respuesta glucémica ante la ingesta de distintos
+              alimentos.
+            </li>
+            <li>
+              Se analizaron cuatro alimentos de consumo habitual: kiwi, banana,
+              pan y fideos.
+            </li>
+            <li>
+              A partir de las mediciones del sensor, se construyó un dataset con
+              valores de glucosa registrados desde 25 minutos previos a la
+              ingesta hasta 170 minutos posteriores, permitiendo observar la
+              evolución completa de la curva glucémica.
+            </li>
+            <li>
+              Sobre estos datos se calcularon métricas derivadas para cada
+              alimento.
+            </li>
+            <li>
+              Adicionalmente, se incorporó información nutricional obtenida de
+              <a
+                href="https://fdc.nal.usda.gov/food-search?type=Foundation"
+                target="_blank"
+                class="text-emerald-600 hover:text-emerald-800 underline underline-offset-2"
+              >
+                USDA
+              </a>
+              generando una tabla con el aporte estimado de cada alimento.
+            </li>
+          </ul>
+        </div>
+
+        <!-- Columna 2 -->
+        <div
+          class="bg-slate-900 text-white rounded-2xl p-4 flex items-center justify-center"
+        >
+          <img
+            src="./sensor_freestyle.jpeg"
+            alt="Sensor de glucosa Freestyle"
+            class="rounded-xl object-cover min-w-[250px]"
+          />
+        </div>
+      </section>
+
+      <!-- Cards con imagenes de alimentos y gramos consumidos -->
+      <section class="w-full px-6 pyt-12 bg-stone-50">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="text-3xl font-bold mb-8 text-center">
+            ¿Qué alimentos se analizaron?
+          </h2>
+
+          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Card 1 -->
+            <div
+              class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden"
+            >
+              <img
+                src="./kiwi.jpg"
+                alt="Kiwi"
+                class="w-full h-40 object-cover"
+              />
+              <div class="p-4 text-center">
+                <h3 class="font-semibold text-lg">Kiwi</h3>
+                <span
+                  class="inline-block mt-2 px-3 py-1 text-sm bg-emerald-100 text-emerald-700 rounded-full"
+                >
+                  120 g
+                </span>
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div
+              class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden"
+            >
+              <img
+                src="./banana.jpg"
+                alt="Banana"
+                class="w-full h-40 object-cover"
+              />
+              <div class="p-4 text-center">
+                <h3 class="font-semibold text-lg">Banana</h3>
+                <span
+                  class="inline-block mt-2 px-3 py-1 text-sm bg-emerald-100 text-emerald-700 rounded-full"
+                >
+                  150 g
+                </span>
+              </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div
+              class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden"
+            >
+              <img src="./pan.jpg" alt="Pan" class="w-full h-40 object-cover" />
+              <div class="p-4 text-center">
+                <h3 class="font-semibold text-lg">Pan</h3>
+                <span
+                  class="inline-block mt-2 px-3 py-1 text-sm bg-emerald-100 text-emerald-700 rounded-full"
+                >
+                  50 g
+                </span>
+              </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div
+              class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden"
+            >
+              <img
+                src="./pasta.jpg"
+                alt="Pasta"
+                class="w-full h-40 object-cover"
+              />
+              <div class="p-4 text-center">
+                <h3 class="font-semibold text-lg">Pasta</h3>
+                <span
+                  class="inline-block mt-2 px-3 py-1 text-sm bg-emerald-100 text-emerald-700 rounded-full"
+                >
+                  150 g
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Visualizaciones -->
+      <section id="graficos">
+        <!-- Visualización 1 - RAWGraphs -->
+        <article class="grid lg:grid-cols-5 gap-8 items-start pt-12">
+          <div class="lg:col-span-2">
+            <p class="text-sm uppercase tracking-widest text-slate-500">
+              Visualización 1 · RAWGraphs
+            </p>
+            <h3 class="text-2xl font-bold mb-4">
+              ¿Qué alimento genera el pico de glucosa más alto?
+            </h3>
+
+            <p class="text-slate-700 leading-relaxed">
+              Se generó un gráfico de barras para comparar el valor máximo de
+              glucosa alcanzado luego de la ingesta de cada alimento. La
+              visualización muestra que la <strong>banana</strong> fue el
+              alimento que produjo el <strong>pico glucémico más alto</strong>,
+              por encima de las pastas, el kiwi y el pan. Este primer resultado
+              sugiere que la respuesta del cuerpo no depende únicamente de la
+              cantidad total de carbohidratos consumidos, sino también de la
+              composición del alimento y de la velocidad con la que sus azúcares
+              son absorbidos.
+            </p>
+          </div>
+          <div class="lg:col-span-3">
+            <div class="chart-frame flex items-center justify-center">
+              <img
+                src="./picos_max_glucosa.svg"
+                alt="Gráfico de barras de picos máximos de glucosa"
+                class="w-full max-h-[500px] object-contain"
+              />
+            </div>
+          </div>
+        </article>
+
+        <!-- Visualización 2 - Flourish -->`
+        <article class="grid lg:grid-cols-5 gap-8 items-start pt-12">
+          <div class="lg:col-span-2">
+            <p class="text-sm uppercase tracking-widest text-slate-500 mb-2">
+              Visualización 2 · Flourish
+            </p>
+            <h3 class="text-2xl font-bold mb-4">
+              ¿Cómo cambia la curva de glucosa minuto a minuto según el
+              alimento?
+            </h3>
+            <p class="text-slate-700 leading-relaxed">
+              El gráfico de líneas permite observar no solo el valor máximo
+              alcanzado, sino también el nivel basal de glucosa y su evolución a
+              lo largo del tiempo para cada alimento. Si bien se confirma que la
+              <strong>banana</strong> alcanza el <strong>pico más alto</strong>,
+              también se evidencia que su descenso es más lento en comparación
+              con los <strong>fideos</strong>, cuya curva muestra una caída más
+              pronunciada.
+            </p>
+
+            <p class="text-slate-700 leading-relaxed mt-4">
+              Por su parte, el <strong>kiwi</strong> presenta una pendiente de
+              crecimiento similar a la de la banana, aunque alcanza un valor
+              máximo considerablemente menor. Sin embargo, ambas curvas muestran
+              un comportamiento descendente comparable.
+            </p>
+
+            <p class="text-slate-700 leading-relaxed mt-4">
+              Finalmente, si bien el <strong>pan</strong> registra el menor pico
+              glucémico, es importante considerar que la cantidad ingerida fue
+              menor (50 g) en comparación con los
+              <strong>150 g de fideos</strong>, lo que introduce una variable
+              adicional a tener en cuenta al interpretar los resultados.
+            </p>
+          </div>
+          <div class="lg:col-span-3">
+            <div class="chart-frame">
+              <div
+                class="flourish-embed flourish-chart"
+                data-src="visualisation/28253890"
+              >
+                <script src="https://public.flourish.studio/resources/embed.js"></script>
+                <noscript
+                  ><img
+                    src="https://public.flourish.studio/visualisation/28253890/thumbnail"
+                    width="100%"
+                    alt="visualization"
+                /></noscript>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tabla - Informacion Nutricional 100 gramos -->
+        <article class="w-full pt-12">
+          <div class="mx-auto">
+            <h2 class="text-3xl font-bold mb-6 text-center">
+              Tabla nutricional de los alimentos (por 100 g)
+            </h2>
+            <p class="text-slate-700 leading-relaxed pb-5">
+              Con el objetivo de complementar el análisis de la respuesta
+              glucémica, se construyó una tabla con la composición nutricional
+              de los alimentos evaluados, considerando valores estimados por
+              cada 100 gramos. La información fue obtenida a partir de la base
+              de datos del
+              <strong>USDA (United States Department of Agriculture)</strong>,
+              lo que permite contextualizar los resultados observados en función
+              del aporte de azúcares, carbohidratos, fibra, proteínas y grasas
+              de cada alimento.
+            </p>
+
+            <div class="overflow-x-auto pb-5">
+              <table
+                class="w-full border border-slate-200 rounded-xl overflow-hidden text-sm"
+              >
+                <thead class="bg-slate-100 text-slate-700">
+                  <tr>
+                    <th class="px-4 py-3 text-left">Alimento</th>
+                    <th class="px-4 py-3 text-center">Azúcar (g)</th>
+                    <th class="px-4 py-3 text-center">Carbohidratos (g)</th>
+                    <th class="px-4 py-3 text-center">Fibra (g)</th>
+                    <th class="px-4 py-3 text-center">Proteína (g)</th>
+                    <th class="px-4 py-3 text-center">Grasa (g)</th>
+                  </tr>
+                </thead>
+
+                <tbody class="text-slate-700">
+                  <tr class="border-t">
+                    <td class="px-4 py-3 font-medium">Kiwi</td>
+                    <td class="px-4 py-3 text-center">8.56</td>
+                    <td class="px-4 py-3 text-center">13.9–14.7</td>
+                    <td class="px-4 py-3 text-center">~2.1</td>
+                    <td class="px-4 py-3 text-center">1.0–1.1</td>
+                    <td class="px-4 py-3 text-center">0.5–0.6</td>
+                  </tr>
+
+                  <tr class="border-t bg-slate-50">
+                    <td class="px-4 py-3 font-medium">Banana</td>
+                    <td class="px-4 py-3 text-center">15.8</td>
+                    <td class="px-4 py-3 text-center">~19</td>
+                    <td class="px-4 py-3 text-center">~1.7</td>
+                    <td class="px-4 py-3 text-center">0.73</td>
+                    <td class="px-4 py-3 text-center">0.3</td>
+                  </tr>
+
+                  <tr class="border-t">
+                    <td class="px-4 py-3 font-medium">Pan</td>
+                    <td class="px-4 py-3 text-center">5.34</td>
+                    <td class="px-4 py-3 text-center">49–50.6</td>
+                    <td class="px-4 py-3 text-center">~2.4–2.7</td>
+                    <td class="px-4 py-3 text-center">7.6–9.4</td>
+                    <td class="px-4 py-3 text-center">3.2–3.3</td>
+                  </tr>
+
+                  <tr class="border-t bg-slate-50">
+                    <td class="px-4 py-3 font-medium">Fideos</td>
+                    <td class="px-4 py-3 text-center">1</td>
+                    <td class="px-4 py-3 text-center">25–31</td>
+                    <td class="px-4 py-3 text-center">~1.4–1.8</td>
+                    <td class="px-4 py-3 text-center">5.0–5.8</td>
+                    <td class="px-4 py-3 text-center">0.9–1.1</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </article>
+
+        <!-- Visualizacion 3 - Wrapper -->
+        <article class="flex flex-col items-center">
+          <p class="text-slate-700 leading-relaxed pb-10">
+            Con el fin de comparar los aportes nutricionales reales, se
+            ajustaron los valores de la tabla a las porciones consumidas y se
+            representaron mediante un gráfico de barras apiladas. Esta
+            visualización permite analizar la contribución relativa de cada
+            nutriente en la ingesta total de cada alimento, proporcionando un
+            marco interpretativo para las diferencias observadas en las curvas
+            de glucosa.
+          </p>
+          <div class="w-[80%] pb-12">
+            <p class="text-sm uppercase tracking-widest text-slate-500 mb-2">
+              Visualización 3 · DATAWRAPPER
+            </p>
+            <iframe
+              title="[ Insert title here ]"
+              aria-label="Stacked Bars"
+              id="datawrapper-chart-3lvRE"
+              src="https://datawrapper.dwcdn.net/3lvRE/1/"
+              scrolling="no"
+              frameborder="0"
+              style="width: 0; min-width: 100% !important; border: none"
+              height="173"
+              data-external="1"
+            ></iframe>
+
+            <script type="text/javascript">
+              window.addEventListener("message", function (a) {
+                if (void 0 !== a.data["datawrapper-height"]) {
+                  var e = document.querySelectorAll("iframe");
+                  for (var t in a.data["datawrapper-height"])
+                    for (var r, i = 0; (r = e[i]); i++)
+                      if (r.contentWindow === a.source) {
+                        var d = a.data["datawrapper-height"][t] + "px";
+                        r.style.height = d;
+                      }
+                }
+              });
+            </script>
+          </div>
+        </article>
+      </section>
+
+      <!-- Visualizacion 4 - Tableu -->
+      <article class="">
+        <div class="lg:col-span-2">
+          <p class="text-sm uppercase tracking-widest text-slate-500 mb-2">
+            Visualización 4 · TABLEAU
+          </p>
+          <h3 class="text-2xl font-bold mb-4">
+            ¿La fibra y la proteína ayudan a amortiguar la respuesta glucémica?
+          </h3>
+          <div class="pb-5">
+            <p class="text-slate-700 leading-relaxed">
+              Para profundizar el análisis, se construyó una visualización
+              interactiva que integra tanto las métricas derivadas de la
+              respuesta glucémica como la composición nutricional de cada
+              alimento según las porciones consumidas. En primer lugar, se
+              presenta una tabla que resume indicadores clave como la glucosa
+              basal, el valor máximo alcanzado, la variación respecto del basal
+              y el área bajo la curva (AUC), junto con los aportes de azúcares,
+              carbohidratos, fibra, proteínas y grasas.
+            </p>
+
+            <p class="text-slate-700 leading-relaxed mt-4">
+              El <strong>AUC (Área Bajo la Curva)</strong> es una métrica que
+              permite cuantificar la <strong>carga glucémica total</strong>, ya
+              que integra tanto la magnitud del aumento de glucosa como el
+              tiempo durante el cual se mantiene elevada. A diferencia del pico
+              máximo, que refleja un momento puntual, el AUC ofrece una visión
+              más completa del impacto metabólico de cada alimento.
+            </p>
+
+            <p class="text-slate-700 leading-relaxed mt-4">
+              A partir de esta información, se incorporan dos gráficos de
+              dispersión que permiten explorar la relación entre el AUC y el
+              contenido de <strong>fibra</strong> y <strong>proteína</strong> de
+              cada alimento. Estas visualizaciones buscan evaluar si la
+              presencia de estos nutrientes se asocia con una respuesta
+              glucémica más moderada, aportando evidencia para interpretar las
+              diferencias observadas en las curvas de glucosa.
+            </p>
+          </div>
+        </div>
+        <div class="lg:col-span-3">
+          <div class="chart-frame">
+            <div
+              class="tableauPlaceholder"
+              id="viz1774598892043"
+              style="position: relative"
+            >
+              <noscript
+                ><a href="#"
+                  ><img
+                    alt="Dashboard 1 "
+                    src="https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;TP&#47;TP1_tabla_metricas_derivadas&#47;Dashboard1&#47;1_rss.png"
+                    style="border: none" /></a></noscript
+              ><object class="tableauViz" style="display: none">
+                <param
+                  name="host_url"
+                  value="https%3A%2F%2Fpublic.tableau.com%2F"
+                />
+                <param name="embed_code_version" value="3" />
+                <param name="site_root" value="" />
+                <param
+                  name="name"
+                  value="TP1_tabla_metricas_derivadas&#47;Dashboard1"
+                />
+                <param name="tabs" value="no" />
+                <param name="toolbar" value="yes" />
+                <param
+                  name="static_image"
+                  value="https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;TP&#47;TP1_tabla_metricas_derivadas&#47;Dashboard1&#47;1.png"
+                />
+                <param name="animate_transition" value="yes" />
+                <param name="display_static_image" value="yes" />
+                <param name="display_spinner" value="yes" />
+                <param name="display_overlay" value="yes" />
+                <param name="display_count" value="yes" />
+                <param name="language" value="en-GB" />
+                <param name="filter" value="publish=yes" />
+              </object>
+            </div>
+            <script type="text/javascript">
+              var divElement = document.getElementById("viz1774598892043");
+              var vizElement = divElement.getElementsByTagName("object")[0];
+              if (divElement.offsetWidth > 800) {
+                vizElement.style.width = "100%";
+                vizElement.style.height = divElement.offsetWidth * 0.75 + "px";
+              } else if (divElement.offsetWidth > 500) {
+                vizElement.style.width = "100%";
+                vizElement.style.height = divElement.offsetWidth * 0.75 + "px";
+              } else {
+                vizElement.style.width = "100%";
+                vizElement.style.height = "927px";
+              }
+              var scriptElement = document.createElement("script");
+              scriptElement.src =
+                "https://public.tableau.com/javascripts/api/viz_v1.js";
+              vizElement.parentNode.insertBefore(scriptElement, vizElement);
+            </script>
+          </div>
+        </div>
+      </article>
+
+      <!-- Hallazgos -->
+      <section id="hallazgos" class="">
+        <div
+          class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-200 p-8"
+        >
+          <p class="text-emerald-700 font-semibold mb-2">
+            Lectura de resultados
+          </p>
+          <h2 class="text-3xl font-bold mb-6">
+            ¿Qué podría aprender el público de esta historia?
+          </h2>
+          <div class="space-y-4 text-slate-700 leading-relaxed">
+            <p class="text-slate-700 leading-relaxed">
+              La respuesta glucémica no depende únicamente de la cantidad de
+              azúcar “visible” en un alimento. También influyen su estructura,
+              su grado de procesamiento y la presencia de otros nutrientes como
+              la fibra, la grasa y la proteína, que pueden modificar la
+              velocidad de absorción de los carbohidratos.
+            </p>
+
+            <p class="text-slate-700 leading-relaxed mt-4">
+              Al comparar la <strong>banana</strong> con los
+              <strong>fideos</strong>, se observa que la primera presenta un
+              pico de glucosa levemente superior, así como también un mayor AUC,
+              a pesar de contener menos carbohidratos totales y más fibra. Esto
+              podría explicarse por su mayor contenido de azúcares simples, que
+              se absorben más rápidamente. Por el contrario, los fideos, aunque
+              ricos en carbohidratos, están compuestos principalmente por
+              <strong>almidón</strong>, un tipo de carbohidrato complejo que
+              requiere un proceso digestivo más lento, lo que contribuye a una
+              liberación más gradual de la glucosa en sangre.
+            </p>
+
+            <p class="text-slate-700 leading-relaxed mt-4">
+              El <strong>pan</strong> mostró el menor pico glucémico dentro del
+              conjunto analizado. Sin embargo, este resultado debe interpretarse
+              con cautela, ya que la porción consumida fue menor (50 g). Dado su
+              elevado contenido de carbohidratos, es esperable que, en
+              cantidades comparables a las de la pasta, genere una respuesta
+              glucémica más pronunciada.
+            </p>
+
+            <p class="text-slate-700 leading-relaxed mt-4">
+              Por su parte, el <strong>kiwi</strong> aparece como el alimento
+              con un perfil más favorable en este análisis: presenta menor
+              contenido de azúcares que la banana, menor carga de carbohidratos
+              que el resto y un aporte significativo de fibra, lo que contribuye
+              a una curva de glucosa más moderada y estable.
+            </p>
+
+            <p class="text-slate-700 leading-relaxed mt-4">
+              En conjunto, estos resultados refuerzan la idea de que alimentos
+              aparentemente similares pueden generar respuestas muy distintas, y
+              que comprender la dinámica de la glucosa en el tiempo permite
+              desarrollar una mirada más informada y consciente sobre nuestras
+              elecciones alimentarias.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="cierre"
+        class="bg-slate-900 text-white rounded-3xl p-10 md:p-14"
+      >
+        <p class="text-emerald-300 font-semibold mb-2">Conclusión</p>
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">
+          Comer no es solo ingerir calorías: también es dibujar curvas
+          invisibles en el cuerpo
+        </h2>
+        <p class="text-slate-200 text-lg leading-relaxed max-w-4xl">
+          A través de datos personales, este proyecto busca volver visible una
+          dimensión poco intuitiva de la alimentación: el impacto metabólico. La
+          historia no termina en un gráfico, sino en una pregunta para el
+          lector:
+          <strong
+            >si pudiéramos ver más seguido cómo responde nuestro cuerpo,
+            cambiaríamos lo que elegimos comer?</strong
+          >
+        </p>
+      </section>
+    </main>
+
+    <footer class="border-t border-slate-200 bg-white">
+      <div
+        class="max-w-6xl mx-auto px-6 py-8 text-sm text-slate-500 flex flex-col md:flex-row justify-between gap-3"
+      >
+        <p>TP de Visualización de Datos Personales</p>
+        <p>Desarrollado en HTML + Tailwind · Publicable en GitHub Pages</p>
+      </div>
+    </footer>
+  </body>
+</html>
